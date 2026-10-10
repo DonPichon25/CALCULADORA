@@ -1,0 +1,32 @@
+name: Compilar Backend Spring Boot
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # Le indicamos a GitHub que ejecute todo dentro de tu carpeta "ultimate"
+    defaults:
+      run:
+        working-directory: ./ultimate
+
+    steps:
+    # 1. Clona el código de tu repositorio en la máquina virtual
+    - uses: actions/checkout@v4
+    
+    # 2. Instala Java 21 (la versión que estás usando localmente)
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
+        
+    # 3. Ejecuta Maven para compilar el proyecto y verificar que no hay errores
+    - name: Build with Maven
+      run: mvn clean verify
